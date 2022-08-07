@@ -1,0 +1,71 @@
+version: "3.9"
+services:
+  postgres:
+    container_name: postgres_container
+    restart: always
+    image: postgres:14.4
+    environment:
+      POSTGRES_DB: "support"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "admin"
+    ports:
+      - "5432:5432"
+
+  web:
+    container_name: suppDjango_container
+    restart: always
+    build:
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      -   data_supp:/var/lib/sup/data/suppDjango/
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
+
+  celery:
+    container_name: celery_container
+    restart: always
+    image: celery:4
+    build: .
+    command: celery -A suppDjango worker -l info -P eventlet
+    ports:
+      - "6380:6379"
+    links:
+      - redis
+    depends_on:
+      - web
+      - redis
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_USERNAME: "admin"
+      PGADMIN_DEFAULT_EMAIL: "pamgame1212@mail.ru"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+  redis:
+    container_name: redis_container
+    restart: always
+    command: redis-server
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+
+volumes:
+  data_supp:
+
+
+
+
+
+
+
+
