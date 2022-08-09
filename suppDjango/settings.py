@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'Supports',
+    'supports',
     'rest_framework',
 ]
 
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'suppDjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'Supports']
+        'DIRS': [BASE_DIR / 'supports']
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -79,7 +79,7 @@ DATABASES = {
         'NAME': 'support',
         'USER': 'postgres',
         'PASSWORD': 'admin',
-        'HOST': 'postgres_container',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=40),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
